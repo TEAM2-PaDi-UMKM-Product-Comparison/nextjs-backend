@@ -1,0 +1,45 @@
+/* src/styles/globals.css */
+
+/* Import Tailwind CSS base, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Global Styles */
+body {
+  @apply bg-gray-50 text-gray-900;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-bold;
+}
+
+a {
+  @apply text-teal-500 hover:text-teal-700;
+}
+
+/* Custom Header Styles */
+header {
+  @apply bg-gray-100 shadow-md;
+}
+
+input[type="text"] {
+  @apply w-full border border-gray-300 rounded p-2;
+}
+
+/* Custom Breadcrumb Styles */
+nav ul {
+  @apply flex space-x-2 text-sm text-gray-600;
+}
+
+/* Custom Button Styles */
+button {
+  @apply bg-teal-500 text-white px-4 py-2 rounded;
+}
+
+/* Custom Layout Styles */
+.main-content {
+  @apply p-10;
+}
+
