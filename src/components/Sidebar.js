@@ -1,415 +1,136 @@
 'use client'; // Tambahkan ini di baris pertama
 
 import React, { useState } from 'react';
+import { FaTrashAlt, FaShoppingCart, FaStar, FaStarHalfAlt } from 'react-icons/fa';
 
-const Sidebar = () => {
+const Sidebar =  ({ product }) => {
   // State untuk mengontrol pop-up informasi
-  const [tooltip, setTooltip] = useState(null);
-  const [priceRange, setPriceRange] = useState([5000, 1000000]);
+  // Function to render stars based on rating
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const halfStars = rating % 1 !== 0;
+    const stars = [];
 
-  // State untuk select options
-  const [filters, setFilters] = useState({
-    location: '',
-    stock: '',
-    category: '',
-    brand: '',
-    minPurchase: '',
-    weight: '',
-    dimension: '',
-    seller: '',
-    tax: '',
-    bumn: ''
-  });
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<FaStar key={i} className="text-yellow-500" />);
+    }
 
-  // Fungsi untuk menampilkan atau menyembunyikan tooltip
-  const toggleTooltip = (index) => {
-    setTooltip(tooltip === index ? null : index);
-  };
+    if (halfStars) {
+      stars.push(<FaStarHalfAlt key="half" className="text-yellow-500" />);
+    }
 
-  // Fungsi untuk handle perubahan select options
-  const handleSelectChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
-  };
-
-  const handlePriceChange = (e) => {
-    const newRange = [parseInt(e.target.value[0]), parseInt(e.target.value[1])];
-    setPriceRange(newRange);
+    return stars;
   };
 
   return (
-    <aside className="col-span-1 bg-white p-4 shadow-md rounded-lg relative">
-      <h2 className="text-lg font-semibold mb-10">Bandingkan Produk</h2>
-      <div className="space-y-4">
-        {/* Filter Harga */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Harga
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(0)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-            </span>
-          </label>
-          {tooltip === 0 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Rentang harga produk yang ingin Anda cari.
+    <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-xs flex flex-col justify-between">
+      {/* Responsive Image */}
+      
+     <div className="p-4 text-left flex flex-col  ">
+
+     <div 
+  className="w-full h-60 flex items-start  sm:h-48 lg:h-60"
+>
+  <span className="text-lg font-semibold pt-4">Bandingkan Produk</span>
+</div>
+
+
+  {/* Ensure the title section has a flexible but constrained height */}
+            <div className="flex flex-col justify-between" style={{ minHeight: '100px', maxHeight: '150px', overflowY: 'hidden' }}>
+              <h2 className="text-lg font-semibold" style={{
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 3,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}>
+             
+              </h2>
             </div>
-          )}
-          <input
-            type="range"
-            className="w-full"
-            min={5000}
-            max={1000000}
-            value={priceRange}
-            onChange={handlePriceChange}
-          />
-          <div className="text-sm mt-2">
-            Rp {priceRange[0]} - Rp {priceRange[1]}
+
+            <div className="flex items-center justify-between mt-4 invisible">
+              <button className="flex items-center justify-center bg-white text-teal-500 border border-teal-500 rounded-md p-2 hover:bg-teal-500 hover:text-white transition">
+                <FaTrashAlt className="mr-2" />
+              </button>
+              <button className="flex items-center justify-center bg-teal-500 text-white rounded-md p-2 hover:bg-teal-600 transition">
+                <FaShoppingCart className="mr-2" /> Keranjang
+              </button>
+            </div>
+
+            {/* Horizontal Line */}
+            <hr className="my-3 border-gray-300" />
+
+
+
+        <div className="grid grid-cols-1 gap-2 mt-4 text-sm text-gray-600 flex-grow">
+          <div className="flex justify-between">
+          <span className="font-semibold">Harga:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Dikirim dari:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Rating:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Terjual:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Pajak:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">TKDN:</span>
+          </div>
+
+          <hr className="my-3 border-gray-300 w-full" />
+
+          <div className="flex justify-between">
+          <span className="font-semibold">Stok:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Kategori:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Brand:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Min Pembelian:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Berat Satuan:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Dimensi Ukuran:</span>
+          </div>
+
+          <hr className="my-3 border-gray-300 w-full" />
+
+          <div className="flex justify-between">
+          <span className="font-semibold">Penjual:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Pajak:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">BUMN Pengampu:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Rating & Ulasan:</span>
+          </div>
+          <div className="flex justify-between">
+          <span className="font-semibold">Total Penjualan:</span>
+          </div>
+
+          <hr className="my-3 border-gray-300 w-full" />
+          
+          <div className="flex justify-between">
+          <span className="font-semibold">Deskripsi:</span>
           </div>
         </div>
-
-        {/* Filter Dikirim dari */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Dikirim dari
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(1)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 1 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Lokasi pengiriman produk.
-            </div>
-          )}
-          <select
-            name="location"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.location}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Lokasi</option>
-            <option value="Jakarta">Jakarta</option>
-            <option value="Bandung">Bandung</option>
-            <option value="Surabaya">Surabaya</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-         {/* Filter Rating */}
-         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Rating
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(3)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 2 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Kategori produk yang sesuai.
-            </div>
-          )}
-          <select
-            name="rating"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.rating}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Rating</option>
-            <option value="rating1">Rating 2 kebawah</option>
-            <option value="rating1">Rating 3 keatas</option>
-            <option value="rating1">Rating 5 </option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter Stok */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Stok
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(2)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 3 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Jumlah produk yang tersedia di gudang.
-            </div>
-          )}
-          <select
-            name="stock"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.stock}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Stok</option>
-            <option value="5"> 5 pack</option>
-            <option value="10"> 10 pack</option>
-            <option value="20"> 20 pack</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter Kategori */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Kategori
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(3)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 4 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Kategori produk yang sesuai.
-            </div>
-          )}
-          <select
-            name="category"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.category}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Kategori</option>
-            <option value="Elektronik">Elektronik</option>
-            <option value="Pakaian">Pakaian</option>
-            <option value="Makanan">Makanan</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter Brand */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Brand
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(4)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 5 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Merek produk yang ingin dicari.
-            </div>
-          )}
-          <select
-            name="brand"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.brand}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Brand</option>
-            <option value="Apple">Apple</option>
-            <option value="Samsung">Samsung</option>
-            <option value="Sony">Sony</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter Minimum Pembelian */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Min Pembelian
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(5)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 6 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Jumlah minimum pembelian produk.
-            </div>
-          )}
-          <select
-            name="minPurchase"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.minPurchase}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Min Pembelian</option>
-            <option value="1">1 unit</option>
-            <option value="5">5 unit</option>
-            <option value="10">10 unit</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter Berat Satuan */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Berat Satuan
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(6)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 7 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Berat satuan dari produk.
-            </div>
-          )}
-          <select
-            name="weight"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.weight}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Berat</option>
-            <option value="500g">500g</option>
-            <option value="1kg">1kg</option>
-            <option value="5kg">5kg</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter Dimensi Ukuran */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Dimensi Ukuran
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(7)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 8 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Ukuran dimensi produk.
-            </div>
-          )}
-          <select
-            name="dimension"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.dimension}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Dimensi</option>
-            <option value="small">Kecil</option>
-            <option value="medium">Sedang</option>
-            <option value="large">Besar</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter Seller */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Seller
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(8)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 9 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Penjual produk yang ingin dicari.
-            </div>
-          )}
-          <select
-            name="seller"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.seller}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Seller</option>
-            <option value="official">Official</option>
-            <option value="reseller">Reseller</option>
-            <option value="umkm">UMKM</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter Pajak */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Pajak
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(9)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 10 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Produk dengan pajak atau bebas pajak.
-            </div>
-          )}
-          <select
-            name="tax"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.tax}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih Pajak</option>
-            <option value="tax">Dengan Pajak</option>
-            <option value="noTax">Tanpa Pajak</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
-
-        {/* Filter BUMN */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            BUMN
-            <span
-              className="ml-1 cursor-pointer text-blue-500"
-              onMouseEnter={() => toggleTooltip(10)}
-              onMouseLeave={() => toggleTooltip(null)}
-            >
-              ℹ️
-            </span>
-          </label>
-          {tooltip === 11 && (
-            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
-              Produk yang dijual oleh BUMN.
-            </div>
-          )}
-          <select
-            name="bumn"
-            className="w-full p-2 mt-2 border rounded-md"
-            value={filters.bumn}
-            onChange={handleSelectChange}
-          >
-            <option value="">Pilih BUMN</option>
-            <option value="yes">Ya</option>
-            <option value="no">Tidak</option>
-            {/* Tambahkan opsi lain sesuai kebutuhan */}
-          </select>
-        </div>
       </div>
-    </aside>
+    </div>
   );
 };
 
 export default Sidebar;
+
