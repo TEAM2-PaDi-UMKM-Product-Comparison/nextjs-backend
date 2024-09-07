@@ -21,11 +21,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-xs">
-      <img
-        src={product.image}
-        alt={product.title}
-        className="w-full h-50 object-cover"
-      />
+      <img src={product.image} alt={product.title} className="w-full h-50 object-cover"/>
       <div className="p-4 text-left">
         <h2 className="text-lg font-semibold">{product.title}</h2>
 

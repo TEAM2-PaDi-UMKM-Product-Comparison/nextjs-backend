@@ -38,7 +38,7 @@ const Sidebar = () => {
 
   return (
     <aside className="col-span-1 bg-white p-4 shadow-md rounded-lg relative">
-      <h2 className="text-lg font-semibold mb-4">Bandingkan Produk</h2>
+      <h2 className="text-lg font-semibold mb-10">Bandingkan Produk</h2>
       <div className="space-y-4">
         {/* Filter Harga */}
         <div>
@@ -49,7 +49,6 @@ const Sidebar = () => {
               onMouseEnter={() => toggleTooltip(0)}
               onMouseLeave={() => toggleTooltip(null)}
             >
-              ℹ️
             </span>
           </label>
           {tooltip === 0 && (
@@ -101,6 +100,37 @@ const Sidebar = () => {
           </select>
         </div>
 
+         {/* Filter Rating */}
+         <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Rating
+            <span
+              className="ml-1 cursor-pointer text-blue-500"
+              onMouseEnter={() => toggleTooltip(3)}
+              onMouseLeave={() => toggleTooltip(null)}
+            >
+              ℹ️
+            </span>
+          </label>
+          {tooltip === 2 && (
+            <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
+              Kategori produk yang sesuai.
+            </div>
+          )}
+          <select
+            name="rating"
+            className="w-full p-2 mt-2 border rounded-md"
+            value={filters.rating}
+            onChange={handleSelectChange}
+          >
+            <option value="">Pilih Rating</option>
+            <option value="rating1">Rating 2 kebawah</option>
+            <option value="rating1">Rating 3 keatas</option>
+            <option value="rating1">Rating 5 </option>
+            {/* Tambahkan opsi lain sesuai kebutuhan */}
+          </select>
+        </div>
+
         {/* Filter Stok */}
         <div>
           <label className="block text-sm font-medium text-gray-700">
@@ -113,7 +143,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 2 && (
+          {tooltip === 3 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Jumlah produk yang tersedia di gudang.
             </div>
@@ -144,7 +174,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 3 && (
+          {tooltip === 4 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Kategori produk yang sesuai.
             </div>
@@ -175,7 +205,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 4 && (
+          {tooltip === 5 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Merek produk yang ingin dicari.
             </div>
@@ -206,7 +236,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 5 && (
+          {tooltip === 6 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Jumlah minimum pembelian produk.
             </div>
@@ -237,7 +267,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 6 && (
+          {tooltip === 7 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Berat satuan dari produk.
             </div>
@@ -268,7 +298,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 7 && (
+          {tooltip === 8 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Ukuran dimensi produk.
             </div>
@@ -299,7 +329,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 8 && (
+          {tooltip === 9 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Penjual produk yang ingin dicari.
             </div>
@@ -330,7 +360,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 9 && (
+          {tooltip === 10 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Produk dengan pajak atau bebas pajak.
             </div>
@@ -360,7 +390,7 @@ const Sidebar = () => {
               ℹ️
             </span>
           </label>
-          {tooltip === 10 && (
+          {tooltip === 11 && (
             <div className="absolute bg-gray-200 text-gray-800 p-2 rounded shadow-lg mt-1 text-xs w-56">
               Produk yang dijual oleh BUMN.
             </div>
