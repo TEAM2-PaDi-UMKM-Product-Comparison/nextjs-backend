@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
         <img 
           src={product.image} 
           alt={product.title} 
-          className="w-full h-60 object-cover sm:h-48 lg:h-60"
+          className="w-full h-60 object-cover sm:h-50 lg:h-60"
         />
 
         {/* Ensure the title section has a flexible but constrained height */}
