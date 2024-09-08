@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaTrashAlt, FaShoppingCart, FaStar } from 'react-icons/fa';
 
-const ProductCard = ({ product, isBestProduct}) => {
-  // Function to render one star and the rating number
-  const renderStarAndRating = (rating) => {
-    return (
-      <div className="flex items-center bg-teal-500 text-white rounded-full px-3 py-1">
-        <FaStar className="text-yellow-500 mr-1" />
-        <span className="text-sm font-semibold">{rating}</span>
-      </div>
-    );
+const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
+
+  // Function to render star rating
+  const renderStarAndRating = (rating) => (
+    <div className="flex items-center bg-teal-500 text-white rounded-full px-3 py-1">
+      <FaStar className="text-yellow-500 mr-1" />
+      <span className="text-sm font-semibold">{rating}</span>
+    </div>
+  );
+
+  // Function to render product details row
+  const renderDetailRow = (label, value) => (
+    <div className="flex justify-between">
+      <span>{label}</span>
+      <span>{value}</span>
+    </div>
+  );
+
+  // Function to handle adding product to cart
+  const handleAddToCart = () => {
+    if (onAddToCart) {
+      onAddToCart(product);
+    }
   };
 
   return (
@@ -22,7 +36,7 @@ const ProductCard = ({ product, isBestProduct}) => {
           className="w-full h-50 object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {/* Overlay that appears on hover */}
-        <div className=" relative w-full h-50 absolute inset-0 bg-teal-500 bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="relative w-full h-50 absolute inset-0 bg-teal-500 bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <span className="text-white font-semibold">Lihat Produk</span>
         </div>
       </div>
@@ -57,7 +71,10 @@ const ProductCard = ({ product, isBestProduct}) => {
           <button className="flex items-center justify-center bg-white text-teal-500 border border-teal-500 rounded-md p-2 hover:bg-teal-500 hover:text-white transition">
             <FaTrashAlt className="mr-2" />
           </button>
-          <button className="flex items-center justify-center bg-teal-500 text-white rounded-md p-2 hover:bg-teal-600 transition">
+          <button
+            onClick={handleAddToCart}
+            className="flex items-center justify-center bg-teal-500 text-white rounded-md p-2 hover:bg-teal-600 transition"
+          >
             <FaShoppingCart className="mr-2" /> Keranjang
           </button>
         </div>

@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProductCard from './ProductCard';
-import { products } from '../constants/products'; // Assuming products are imported
+import AddToCartModal from './AddToCartModal';
+import { products } from '../constants/products'; 
 
 const ProductList = () => {
-  // Find the product with the highest rating and lowest price
+  const [cartItems, setCartItems] = useState([]);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const handleAddToCart = (product) => {
+    setCartItems([...cartItems, product]);
+    setSelectedProduct(product);
+    setPopupVisible(true);
+  };
+
+  const handleClose = () => {
+    setPopupVisible(false);
+    setSelectedProduct(null);
+  };
+
   const bestProduct = products.reduce((best, product) => {
     if (!best) return product;
-    if (product.rating > best.rating || (product.rating === best.rating && product.price < best.price)) {
-      return product;
-    }
-    return best;
+    return product.rating > best.rating || (product.rating === best.rating && product.price < best.price) ? product : best;
   }, null);
 
   return (
@@ -18,9 +30,11 @@ const ProductList = () => {
         <ProductCard
           key={product.id}
           product={product}
-          isBestProduct={product.id === bestProduct.id} // Only pass true for the best product
+          isBestProduct={product.id === bestProduct.id}
+          onAddToCart={handleAddToCart}
         />
       ))}
+      <AddToCartModal open={popupVisible} handleClose={handleClose} product={selectedProduct} />
     </div>
   );
 };
