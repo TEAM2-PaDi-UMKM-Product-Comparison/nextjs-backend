@@ -91,7 +91,7 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
               <button
                 onClick={handleAddToCart}
                 disabled={quantity === 0 || product.stock === 0}
-                className="mt-6 w-full flex items-center justify-center py-3 bg-teal-500 hover:bg-teal-600 text-white font-bold rounded-md transition-colors disabled:bg-gray-300"
+                className="mt-6 w-full flex items-center justify-center py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded-md transition-colors disabled:bg-gray-300"
               >
                 <FaShoppingCart className="mr-2" />
                 Masukkan Keranjang
@@ -109,7 +109,7 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
             {/* Success Header */}
             <div className="flex justify-between items-center mb-4">
               <div className="flex items-center">
-                <FaCheckCircle className="text-teal-500 mr-2" size={24} />
+                <FaCheckCircle className="text-cyan-500 mr-2" size={24} />
                 <h2 className="text-lg font-bold">Berhasil dimasukkan ke keranjang!</h2>
               </div>
               <button onClick={handleCloseSuccess} className="text-gray-500 hover:text-gray-700">
@@ -126,14 +126,14 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
             <div className="flex justify-between">
               <button
                 onClick={handleCloseSuccess}
-                className="flex items-center px-4 py-2 border border-teal-500 text-teal-500 rounded-md hover:bg-teal-50"
+                className="flex items-center px-4 py-2 border border-cyan-500 text-cyan-500 rounded-md hover:bg-cyan-50"
               >
                 <FaShoppingCart className="mr-2" />
                 Pilih lagi
               </button>
               <button
                 onClick={handleCloseSuccess}
-                className="flex items-center px-4 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600"
+                className="flex items-center px-4 py-2 bg-cyan-500 text-white rounded-md hover:bg-cyan-600"
               >
                 <FaShoppingCart className="mr-2" />
                 Beli barang

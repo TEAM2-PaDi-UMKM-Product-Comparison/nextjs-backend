@@ -1,7 +1,15 @@
-import React from 'react';
+// SearchModal.js
+import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import ProductSearch from './ProductSearch';  // Import the ProductSearch component
 
 const SearchModal = ({ onClose }) => {
+  const [searchQuery, setSearchQuery] = useState(""); // State to track search query
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);  // Update the search query state
+  };
+
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
       <div className="bg-white rounded-lg shadow-lg p-6 w-3/4 max-w-4xl">
@@ -11,6 +19,8 @@ const SearchModal = ({ onClose }) => {
             <input
               type="text"
               placeholder="Cari produk, jasa, atau vendor"
+              value={searchQuery}
+              onChange={handleSearch}   // Update search query on input change
               className="w-full border border-gray-300 rounded-full py-2 px-4 pl-6 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -30,20 +40,14 @@ const SearchModal = ({ onClose }) => {
           </div>
         </div>
 
-        {/* Empty State Illustration */}
-        <div className="flex flex-col items-center justify-center h-64">
-          <img src="/icons/middle pic.png" alt="No Products" className="h-24 w-24 mb-4" />
-          <p className="text-gray-500 text-lg mb-2">Belum Ada Produk</p>
-          <p className="text-gray-400 text-sm text-center">
-            Silahkan cari produk di kolom pencarian dengan menuliskan nama produk yang ingin dicari
-          </p>
-        </div>
+        {/* Product Search Component */}
+        <ProductSearch searchQuery={searchQuery} />  {/* Pass the search query to ProductSearch */}
 
         {/* Close Button */}
         <div className="flex justify-end mt-6">
           <button
             onClick={onClose}
-            className="bg-blue-500 text-white px-4 py-2 rounded-full"
+            className="bg-cyan-500 text-white px-4 py-2 rounded-full"
           >
             Tutup
           </button>

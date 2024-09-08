@@ -36,7 +36,7 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
           className="w-full h-50 object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {/* Overlay that appears on hover */}
-        <div className="relative w-full h-50 absolute inset-0 bg-teal-500 bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="relative w-full h-50 absolute inset-0 bg-cyan-500 bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <span className="text-white font-semibold">Lihat Produk</span>
         </div>
       </div>
@@ -68,12 +68,12 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
         )}
 
         <div className="flex items-center justify-between mt-4">
-          <button className="flex items-center justify-center bg-white text-teal-500 border border-teal-500 rounded-md p-2 hover:bg-teal-500 hover:text-white transition">
+          <button className="flex items-center justify-center bg-white text-cyan-500 border border-cyan-500 rounded-md p-2 hover:bg-cyan-500 hover:text-white transition">
             <FaTrashAlt className="mr-2" />
           </button>
           <button
             onClick={handleAddToCart}
-            className="flex items-center justify-center bg-teal-500 text-white rounded-md p-2 hover:bg-teal-600 transition"
+            className="flex items-center justify-center bg-cyan-500 text-white rounded-md p-2 hover:bg-cyan-600 transition"
           >
             <FaShoppingCart className="mr-2" /> Keranjang
           </button>
