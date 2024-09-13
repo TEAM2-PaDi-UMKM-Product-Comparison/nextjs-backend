@@ -17,6 +17,7 @@ export const products = [
     sizeDimensions: '30x20x5cm',
     seller: 'PT KNI',
     bumn: 'Telkom',
+    review : 'Sangat baik dan terjangkau',
     totalSales: 500,
     description: 'Buku kas ukuran kwart. Cocok untuk kantor atau usaha kecil dalam mencatat transaksi.',
   },
@@ -38,6 +39,7 @@ export const products = [
     sizeDimensions: '35x25x7cm',
     seller: 'PT KNI Surabaya',
     bumn: 'Telkom',
+    review : 'Sangat baik dan terjangkau',
     totalSales: 400,
     description: 'Buku kas besar cocok untuk pencatatan usaha besar dan menengah.',
   },
@@ -59,6 +61,7 @@ export const products = [
     sizeDimensions: '25x15x4cm',
     seller: 'PT KNI Bandung',
     bumn: 'Telkom',
+    review : 'Sangat baik dan terjangkau',
     totalSales: 600,
     description: 'Buku kas kecil cocok untuk keperluan pencatatan harian.',
   }

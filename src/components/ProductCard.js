@@ -27,7 +27,11 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-xs flex flex-col justify-between relative group">
+    <div
+      className={`bg-white shadow-md rounded-lg overflow-hidden w-full max-w-xs flex flex-col justify-between relative group ${
+        isBestProduct ? 'border-4 border-cyan-500' : 'border border-gray-300'
+      }`}
+    >
       {/* Image container with hover effect */}
       <div className="relative w-full h-50">
         <img
@@ -57,6 +61,7 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
         </h2>
 
         {isBestProduct && (
+          
           <div className="flex items-center justify-between mb-4">
             {/* Rating */}
             {renderStarAndRating(product.rating)}
@@ -64,6 +69,9 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
             <div className="bg-teal-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
               50% lebih murah
             </div>
+            <span className="absolute -top-3 right-2 bg-cyan-500 text-white text-xs font-bold px-3 py-5 rounded-lg z-10">
+            Most Popular
+            </span>
           </div>
         )}
 
@@ -133,9 +141,11 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
             <span>{product.bumn}</span>
           </div>
           <div className="flex justify-between">
+            <span>{product.review}</span>
+          </div>
+          <div className="flex justify-between">
             <span>{product.totalSales}</span>
           </div>
-
           <hr className="my-3 border-gray-300 w-full" />
 
           <div className="flex justify-between">

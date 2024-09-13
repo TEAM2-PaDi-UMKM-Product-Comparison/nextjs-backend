@@ -24,7 +24,7 @@ const Sidebar = ({ product }) => {
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-xs flex flex-col justify-between">
       <div className="p-4 text-left flex flex-col">
-        <div className="w-full h-60 flex items-start sm:h-48 lg:h-60">
+        <div className="w-full h-60 flex items-start sm:h-48 lg:h-55">
           <span className="text-lg font-semibold pt-4">Bandingkan Produk</span>
         </div>
 
@@ -49,12 +49,12 @@ const Sidebar = ({ product }) => {
             </div>
 
             {/* Horizontal Line */}
-
-        <hr className="my-3 border-gray-300" />
-
+            <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+      <hr className="my-18 border-gray-300" />
         {/* Grid for displaying product details */}
-        <div className="grid grid-cols-1 gap-2 mt-4 text-sm text-gray-600">
+        <div className="grid grid-cols-1 gap-2 mt-6 text-sm text-gray-600">
           {/* Harga */}
+          <div></div>
           <div className="flex items-center">
             <span className="font-semibold">Harga</span>
           </div>
@@ -160,6 +160,16 @@ const Sidebar = ({ product }) => {
              {/* Tooltip muncul saat di-hover */}
              <div className="hidden group-hover:inline-block mt-2 ml-4 p-2 text-xs bg-teal-500 text-white rounded w-max">
              Nama Badan Usaha Milik Negara(BUMN) yang mengawasi atau mendukung produk.
+            </div>
+          </div>
+
+          {/* Rating dan ulasan */}
+          <div className="flex items-center group">
+            <span className="font-semibold">Rating & Ulasan</span>
+            <FaInfoCircle className="text-teal-500 ml-2 cursor-pointer" />
+             {/* Tooltip muncul saat di-hover */}
+             <div className="hidden group-hover:inline-block mt-2 ml-4 p-2 text-xs bg-teal-500 text-white rounded w-max">
+             Berisikan ulasan produk.
             </div>
           </div>
 
