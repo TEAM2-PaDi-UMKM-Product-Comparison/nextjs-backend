@@ -1,53 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa'; // Import icon for location
+import { products as allProducts } from '../constants/products'; // Import data produk dari constants/products.js
 
-const ProductSearch = ({ searchQuery }) => {
-  const [products, setProducts] = useState([]);        // Store the product results
+const ProductSearch = ({ searchQuery, onAddProduct }) => {
+  const [products, setProducts] = useState([]); // Store filtered products
+  const [hoveredProduct, setHoveredProduct] = useState(null); // Track hovered product
   const [priceRange, setPriceRange] = useState([5000, 1000000]); // Price filter
   const [locationFilter, setLocationFilter] = useState(''); // Location filter
   const [ratingFilter, setRatingFilter] = useState(''); // Rating filter
 
-  // Simulate a product database
-  const allProducts = [
-    {
-      name: "Buku Kwitansi | Buku keuangan Paperline PPL",
-      price: 6000,
-      location: "Kota Surabaya",
-      rating: 0,
-      pkp: "Non PKP",
-      image: "/images/Component_11.png" // Add the image URL here
-    },
-    {
-      name: "BUKU KAS KNI UKURAN KWARTO",
-      price: 10545,
-      location: "Jakarta Timur",
-      rating: 4.8,
-      pkp: "PKP",
-      image: "/images/Component_13.png"
-    },
-    {
-      name: "BUKU SAK (Standar Akuntansi Keuangan)",
-      price: 6329,
-      location: "Kota Surabaya",
-      rating: 3,
-      pkp: "Non PKP",
-      image: "/images/image.png"
-    },
-  ];
-
+  // Menggunakan data yang diimpor dari products.js
   useEffect(() => {
     let filteredProducts = allProducts;
 
     // Filter by search query
     if (searchQuery) {
       filteredProducts = filteredProducts.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     // Filter by price range
     filteredProducts = filteredProducts.filter(
-      product => product.price >= priceRange[0] && product.price <= priceRange[1]
+      product => parseInt(product.price.replace('.', '')) >= priceRange[0] && parseInt(product.price.replace('.', '')) <= priceRange[1]
     );
 
     // Filter by location
@@ -105,6 +80,7 @@ const ProductSearch = ({ searchQuery }) => {
             <option value="">Semua Lokasi</option>
             <option value="Kota Surabaya">Kota Surabaya</option>
             <option value="Jakarta Timur">Jakarta Timur</option>
+            <option value="Bandung">Bandung</option>
             {/* Add more locations as needed */}
           </select>
         </div>
@@ -139,12 +115,17 @@ const ProductSearch = ({ searchQuery }) => {
         ) : (
             <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
             {products.map((product, index) => (
-              <div key={index} className="bg-white p-4 shadow-md rounded-md">
-                <img src={product.image} alt={product.name} className="h-32 w-full object-cover mb-2" />
+              <div 
+                key={index} 
+                className="bg-white p-4 shadow-md rounded-md"
+                onMouseEnter={() => setHoveredProduct(index)} // Track mouse enter
+                onMouseLeave={() => setHoveredProduct(null)}  // Track mouse leave
+              >
+                <img src={product.image} alt={product.title} className="h-32 w-full object-cover mb-2" />
                 
                 {/* Title */}
                 <h3 className=" text-sm text-ellipsis overflow-hidden mb-1 leading-tight">
-                  {product.name}
+                  {product.title}
                 </h3>
                 
                 {/* Price */}
@@ -170,13 +151,15 @@ const ProductSearch = ({ searchQuery }) => {
                 </div>
                 
                 {/* Button */}
-                <button className={`w-full py-2 rounded-full text-xs ${product.pkp === 'PKP' ? 'bg-cyan-500 text-white' : 'bg-cyan-100 text-white-600'}`}>
-                  {product.pkp === 'PKP' ? 'Bandingkan Produk' : 'Tambahkan'}
+                <button className={`w-full py-2 rounded-full text-xs ${product.pkp === 'PKP' ? 'bg-cyan-500 text-white' : 'bg-cyan-100 text-white-600'} hover:bg-teal-500`} 
+                        onClick={() => onAddProduct(product)} // Trigger the onAddProduct callback when clicked
+                  >
+                  {/* Change text on hover */}
+                  {hoveredProduct === index ? 'Bandingkan Produk' : 'Tambahkan'}
                 </button>
               </div>
             ))}
           </div>
-          
         )}
       </div>
     </div>

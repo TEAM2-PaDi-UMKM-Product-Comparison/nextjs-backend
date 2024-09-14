@@ -1,13 +1,17 @@
-// SearchModal.js
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import ProductSearch from './ProductSearch';  // Import the ProductSearch component
+import ProductSearch from './ProductSearch'; // Import ProductSearch component
 
-const SearchModal = ({ onClose }) => {
+const SearchModal = ({ onClose, onAddToCart }) => { // Add onAddToCart prop
   const [searchQuery, setSearchQuery] = useState(""); // State to track search query
 
   const handleSearch = (e) => {
-    setSearchQuery(e.target.value);  // Update the search query state
+    setSearchQuery(e.target.value); // Update the search query state
+  };
+
+  const handleAddProduct = (product) => {
+    onAddToCart(product);  // Add product to cart via prop function
+    onClose();  // Close modal after adding product to cart
   };
 
   return (
@@ -20,7 +24,7 @@ const SearchModal = ({ onClose }) => {
               type="text"
               placeholder="Cari produk, jasa, atau vendor"
               value={searchQuery}
-              onChange={handleSearch}   // Update search query on input change
+              onChange={handleSearch} // Update search query on input change
               className="w-full border border-gray-300 rounded-full py-2 px-4 pl-6 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <div className="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -41,7 +45,7 @@ const SearchModal = ({ onClose }) => {
         </div>
 
         {/* Product Search Component */}
-        <ProductSearch searchQuery={searchQuery} />  {/* Pass the search query to ProductSearch */}
+        <ProductSearch searchQuery={searchQuery} onAddProduct={handleAddProduct} /> {/* Pass search query and add product function */}
 
         {/* Close Button */}
         <div className="flex justify-end mt-6">

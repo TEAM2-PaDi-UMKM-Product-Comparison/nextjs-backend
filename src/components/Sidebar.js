@@ -49,7 +49,7 @@ const Sidebar = ({ product }) => {
             </div>
 
             {/* Horizontal Line */}
-            <br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+          
       <hr className="my-18 border-gray-300" />
         {/* Grid for displaying product details */}
         <div className="grid grid-cols-1 gap-2 mt-6 text-sm text-gray-600">
