@@ -1,48 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import { FaMapMarkerAlt } from 'react-icons/fa'; // Import icon for location
-import { products as allProducts } from '../constants/products'; // Import data produk dari constants/products.js
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 const ProductSearch = ({ searchQuery, onAddProduct }) => {
-  const [products, setProducts] = useState([]); // Store filtered products
-  const [hoveredProduct, setHoveredProduct] = useState(null); // Track hovered product
-  const [priceRange, setPriceRange] = useState([5000, 1000000]); // Price filter
-  const [locationFilter, setLocationFilter] = useState(''); // Location filter
-  const [ratingFilter, setRatingFilter] = useState(''); // Rating filter
+  const [products, setProducts] = useState([]); // Menyimpan produk yang didapat dari API
+  const [hoveredProduct, setHoveredProduct] = useState(null); // Melacak produk yang di-hover
+  const [priceRange, setPriceRange] = useState([5000, 1000000]); // Filter harga
+  const [locationFilter, setLocationFilter] = useState(''); // Filter lokasi
+  const [ratingFilter, setRatingFilter] = useState(''); // Filter rating
+  const [loading, setLoading] = useState(false); // Status loading
+  const [error, setError] = useState(null); // Menyimpan pesan error jika ada
 
-  // Menggunakan data yang diimpor dari products.js
   useEffect(() => {
-    let filteredProducts = allProducts;
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        // Lakukan permintaan ke API
+        const response = await fetch(`https://nestjs-backend-production-f91c.up.railway.app/products/search?keyword=${searchQuery}`);
+        if (!response.ok) {
+          throw new Error('Terjadi kesalahan saat mengambil data produk');
+        }
+        const data = await response.json();
 
-    // Filter by search query
+        // Filter data berdasarkan rentang harga
+        let filteredProducts = data.filter(
+          product => {
+            // Menghilangkan 'Rp' dan karakter lain dari harga, lalu mengonversi ke angka
+            const price = parseInt(product.price.replace(/[^0-9]/g, ''));
+            return price >= priceRange[0] && price <= priceRange[1];
+          }
+        );
+
+        // Filter berdasarkan lokasi (jika data lokasi tersedia)
+        if (locationFilter) {
+          filteredProducts = filteredProducts.filter(
+            product => product.location === locationFilter
+          );
+        }
+
+        // Filter berdasarkan rating (jika data rating tersedia)
+        if (ratingFilter) {
+          filteredProducts = filteredProducts.filter(
+            product => parseFloat(product.ratings) >= parseFloat(ratingFilter)
+          );
+        }
+
+        setProducts(filteredProducts);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     if (searchQuery) {
-      filteredProducts = filteredProducts.filter(product =>
-        product.title.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      fetchProducts();
+    } else {
+      // Jika tidak ada query pencarian, kosongkan daftar produk
+      setProducts([]);
     }
+  }, [searchQuery, priceRange, locationFilter, ratingFilter]);
 
-    // Filter by price range
-    filteredProducts = filteredProducts.filter(
-      product => parseInt(product.price.replace('.', '')) >= priceRange[0] && parseInt(product.price.replace('.', '')) <= priceRange[1]
-    );
-
-    // Filter by location
-    if (locationFilter) {
-      filteredProducts = filteredProducts.filter(
-        product => product.location === locationFilter
-      );
-    }
-
-    // Filter by rating
-    if (ratingFilter) {
-      filteredProducts = filteredProducts.filter(
-        product => product.rating >= ratingFilter
-      );
-    }
-
-    setProducts(filteredProducts);
-  }, [searchQuery, priceRange, locationFilter, ratingFilter]); // Re-run the effect when filters change
-
-  // Handle slider change
+  // Fungsi untuk menangani perubahan slider harga
   const handlePriceChange = (e) => {
     const newRange = [...priceRange];
     newRange[0] = e.target.value;
@@ -51,11 +70,11 @@ const ProductSearch = ({ searchQuery, onAddProduct }) => {
 
   return (
     <div className="flex">
-      {/* Sidebar for filtering products */}
+      {/* Sidebar untuk menyaring produk */}
       <div className="w-1/4 p-3">
         <h2 className="font-bold mb-4">Sortir Produk</h2>
-        
-        {/* Price Range Slider */}
+
+        {/* Slider Rentang Harga */}
         <div className="mb-4">
           <label className="block text-gray-700">Harga</label>
           <input
@@ -69,7 +88,7 @@ const ProductSearch = ({ searchQuery, onAddProduct }) => {
           <p>{`Rp${priceRange[0]} - Rp${priceRange[1]}`}</p>
         </div>
 
-        {/* Location Filter */}
+        {/* Filter Lokasi */}
         <div className="mb-4">
           <label className="block text-gray-700">Dikirim dari</label>
           <select
@@ -81,11 +100,11 @@ const ProductSearch = ({ searchQuery, onAddProduct }) => {
             <option value="Kota Surabaya">Kota Surabaya</option>
             <option value="Jakarta Timur">Jakarta Timur</option>
             <option value="Bandung">Bandung</option>
-            {/* Add more locations as needed */}
+            {/* Tambahkan lokasi lainnya jika perlu */}
           </select>
         </div>
 
-        {/* Rating Filter */}
+        {/* Filter Rating */}
         <div className="mb-4">
           <label className="block text-gray-700">Rating</label>
           <select
@@ -102,9 +121,13 @@ const ProductSearch = ({ searchQuery, onAddProduct }) => {
         </div>
       </div>
 
-      {/* Product Search Results */}
+      {/* Hasil Pencarian Produk */}
       <div className="w-3/4 p-4">
-        {products.length === 0 ? (
+        {loading ? (
+          <p>Memuat produk...</p>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : products.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-64">
             <img src="/icons/middle pic.png" alt="No Products" className="h-24 w-24 mb-4" />
             <p className="text-gray-500 text-lg mb-2">Belum Ada Produk</p>
@@ -113,48 +136,52 @@ const ProductSearch = ({ searchQuery, onAddProduct }) => {
             </p>
           </div>
         ) : (
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-3">
             {products.map((product, index) => (
-              <div 
-                key={index} 
+              <div
+                key={product._id}
                 className="bg-white p-4 shadow-md rounded-md"
-                onMouseEnter={() => setHoveredProduct(index)} // Track mouse enter
-                onMouseLeave={() => setHoveredProduct(null)}  // Track mouse leave
+                onMouseEnter={() => setHoveredProduct(index)}
+                onMouseLeave={() => setHoveredProduct(null)}
               >
-                <img src={product.image} alt={product.title} className="h-32 w-full object-cover mb-2" />
-                
-                {/* Title */}
-                <h3 className=" text-sm text-ellipsis overflow-hidden mb-1 leading-tight">
-                  {product.title}
+                <img src={product.productImage} alt={product.name} className="h-32 w-full object-cover mb-2" />
+
+                {/* Judul */}
+                <h3 className="text-sm text-ellipsis overflow-hidden mb-1 leading-tight">
+                  {product.name}
                 </h3>
-                
-                {/* Price */}
-                <p className="text-black-500 font-bold text-lg">Rp.{product.price}</p>
-                
+
+                {/* Harga */}
+                <p className="text-black-500 font-bold text-lg">{product.price}</p>
+
                 {/* Rating */}
                 <div className="flex items-center space-x-1 mb-1">
                   <span className="text-yellow-500 text-sm">⭐</span>
-                  <p className="text-xs text-gray-600">{product.rating} / 5</p>
+                  <p className="text-xs text-gray-600">{product.ratings} / 5</p>
                 </div>
-                
-                {/* Location */}
-                <div className="flex items-center space-x-1 mb-2">
-                  <FaMapMarkerAlt className="text-gray-500" /> {/* Replaced with location icon */}
-                  <p className="text-xs text-gray-600">{product.location}</p>
-                </div>
-                
-                {/* PKP Label */}
-                <div className="flex justify-between items-center mb-2">
-                  <span className={`py-1 px-2 text-xs rounded-full ${product.pkp === 'PKP' ? 'bg-green-100 text-green-600' : 'bg-cyan-100 text-red-600'}`}>
-                    {product.pkp}
-                  </span>
-                </div>
-                
-                {/* Button */}
-                <button className={`w-full py-2 rounded-full text-xs ${product.pkp === 'PKP' ? 'bg-cyan-500 text-white' : 'bg-cyan-100 text-white-600'} hover:bg-teal-500`} 
-                        onClick={() => onAddProduct(product)} // Trigger the onAddProduct callback when clicked
-                  >
-                  {/* Change text on hover */}
+
+                {/* Lokasi (jika tersedia) */}
+                {product.location && (
+                  <div className="flex items-center space-x-1 mb-2">
+                    <FaMapMarkerAlt className="text-gray-500" />
+                    <p className="text-xs text-gray-600">{product.location}</p>
+                  </div>
+                )}
+
+                {/* Label PKP atau lainnya (jika ada) */}
+                {product.pkp && (
+                  <div className="flex justify-between items-center mb-2">
+                    <span className={`py-1 px-2 text-xs rounded-full ${product.pkp === 'PKP' ? 'bg-green-100 text-green-600' : 'bg-cyan-100 text-red-600'}`}>
+                      {product.pkp}
+                    </span>
+                  </div>
+                )}
+
+                {/* Tombol */}
+                <button
+                  className={`w-full py-2 rounded-full text-xs ${product.pkp === 'PKP' ? 'bg-cyan-500 text-white' : 'bg-cyan-100 text-white-600'} hover:bg-teal-500`}
+                  onClick={() => onAddProduct(product)}
+                >
                   {hoveredProduct === index ? 'Bandingkan Produk' : 'Tambahkan'}
                 </button>
               </div>

@@ -76,7 +76,7 @@ const ProductList = () => {
 
   // If products exist, display the product list
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2">
+    <div className="flex flex-wrap gap-6">
       {products.map((product, index) => (
         <ProductCard
           key={index}
@@ -84,20 +84,6 @@ const ProductList = () => {
           onAddToCart={handleAddToCart}
         />
       ))}
-
-      <button 
-        className="bg-cyan-500 text-white px-4 py-2 rounded-full mt-4" 
-        onClick={handleOpenSearchModal}
-      >
-        Buka Modal Pencarian
-      </button>
-
-      {isSearchModalOpen && (
-        <SearchModal 
-          onClose={handleCloseSearchModal} 
-          onAddToCart={handleAddToCart}  // Pass handleAddToCart function to SearchModal
-        />
-      )}
     </div>
   );
 };

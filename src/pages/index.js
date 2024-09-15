@@ -77,7 +77,15 @@ const HomePage = () => {
       <main className="bg-gray-50 min-h-screen p-6">
         <div className="grid grid-cols-4 gap-6">
           <Sidebar />
+          <div className="col-span-1">
           <ProductList onAddToCart={openAddToCartModal} />  {/* Pass add to cart handler */}
+          </div>
+          <div className="col-span-1">
+          <ProductList onAddToCart={openAddToCartModal} />  {/* Pass add to cart handler */}
+          </div>
+          <div className="col-span-1">
+          <ProductList onAddToCart={openAddToCartModal} />  {/* Pass add to cart handler */}
+          </div>
         </div>
       </main>
 

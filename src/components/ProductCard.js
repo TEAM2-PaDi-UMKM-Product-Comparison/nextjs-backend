@@ -28,17 +28,18 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
 
   return (
     <div
-      className={`bg-white shadow-md rounded-lg overflow-hidden w-full max-w-xs flex flex-col justify-between relative group ${
+      className={`bg-white shadow-md rounded-lg overflow-hidden w-full flex flex-col justify-between relative group ${
         isBestProduct ? 'border-4 border-cyan-500' : 'border border-gray-300'
       }`}
     >
       {/* Image container with hover effect */}
       <div className="relative w-full h-50">
-        <img
-          src={product.image}
-          alt={product.title}
-          className="w-full h-50 object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+      <img
+        src={product.productImage}
+        alt={product.name}
+        className="w-full h-50 object-cover transition-transform duration-300 group-hover:scale-105"
+      />
+
         {/* Overlay that appears on hover */}
         <div className="relative w-full h-50 absolute inset-0 bg-cyan-500 bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <span className="text-white font-semibold">Lihat Produk</span>
@@ -47,18 +48,19 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
 
       {/* Product Information */}
       <div className="p-4 text-left flex flex-col">
-        <h2
-          className="text-lg font-semibold mb-2"
-          style={{
-            display: '-webkit-box',
-            WebkitBoxOrient: 'vertical',
-            WebkitLineClamp: 2,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {product.title}
-        </h2>
+            <h2
+        className="text-lg font-semibold mb-2"
+        style={{
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+          WebkitLineClamp: 2,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {product.name}
+      </h2>
+
 
         {isBestProduct && (
           
@@ -93,7 +95,7 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
         {/* Product Details */}
         <div className="grid grid-cols-1 gap-2 mt-4 text-sm text-gray-600 flex-grow">
           <div className="flex justify-between">
-            <span>Rp {product.price}</span>
+            <span>{product.price}</span>
           </div>
           <div className="flex justify-between">
             <span>{product.location}</span>
@@ -138,8 +140,13 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
             <span>{product.seller}</span>
           </div>
           <div className="flex justify-between">
-            <span>{product.bumn}</span>
+            <img
+              src={product.bumnImage}
+              alt="BUMN Logo"
+              className="w-6 h-6 rounded-full"
+            />
           </div>
+
           <div className="flex justify-between">
             <span>{product.review}</span>
           </div>
