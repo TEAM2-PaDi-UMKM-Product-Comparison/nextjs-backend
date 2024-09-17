@@ -31,3 +31,40 @@ body {
     text-wrap: balance;
   }
 }
+
+@media print {
+  .no-print {
+    display: none !important; /* Sembunyikan elemen dengan kelas no-print saat cetak */
+  }
+
+  .print-only {
+    display: block !important; /* Tampilkan elemen dengan kelas print-only hanya saat cetak */
+  }
+
+  header {
+    display: none !important; /* Sembunyikan seluruh header saat cetak */
+  }
+
+  nav {
+    padding: 0; /* Mengurangi padding pada nav saat cetak agar lebih sederhana */
+  }
+
+  body {
+    background-color: white;
+    color: black;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Aturan tambahan untuk menyederhanakan tampilan saat cetak */
+  * {
+    box-shadow: none !important;
+    background-image: none !important;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none !important; /* Sembunyikan elemen dengan kelas print-only saat di layar biasa */
+  }
+}

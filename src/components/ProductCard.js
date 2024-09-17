@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaTrashAlt, FaShoppingCart, FaStar } from 'react-icons/fa';
 
-const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
+const ProductCard = ({ product, onAddToCart }) => {
 
   // Function to render star rating
   const renderStarAndRating = (rating) => (
@@ -25,6 +25,11 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
       onAddToCart(product);
     }
   };
+
+  // Logika Best Product berdasarkan harga di bawah 100.000 dan rating lebih dari 4.5
+  const isBestProduct = product.price < 100000 && product.rating > 4.5;
+
+
 
   return (
     <div
@@ -69,7 +74,7 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
             {renderStarAndRating(product.rating)}
             {/* Discount / Promotion Badge */}
             <div className="bg-teal-500 text-white rounded-full px-3 py-1 text-xs font-semibold">
-              50% lebih murah
+              Harga Terbaik!
             </div>
             <span className="absolute -top-3 right-2 bg-cyan-500 text-white text-xs font-bold px-3 py-5 rounded-lg z-10">
             Most Popular
@@ -77,17 +82,18 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
           </div>
         )}
 
-        <div className="flex items-center justify-between mt-4">
-          <button className="flex items-center justify-center bg-white text-cyan-500 border border-cyan-500 rounded-md p-2 hover:bg-cyan-500 hover:text-white transition">
-            <FaTrashAlt className="mr-2" />
-          </button>
-          <button
-            onClick={handleAddToCart}
-            className="flex items-center justify-center bg-cyan-500 text-white rounded-md p-2 hover:bg-cyan-600 transition"
-          >
-            <FaShoppingCart className="mr-2" /> Keranjang
-          </button>
-        </div>
+              <div className="flex items-center justify-between mt-4">
+        <button className="flex items-center justify-center bg-white text-cyan-500 border border-cyan-500 rounded-md p-2 hover:bg-cyan-500 hover:text-white transition no-print">
+          <FaTrashAlt className="mr-2" />
+        </button>
+        <button
+          onClick={handleAddToCart}
+          className="flex items-center justify-center bg-cyan-500 text-white rounded-md p-2 hover:bg-cyan-600 transition no-print"
+        >
+          <FaShoppingCart className="mr-2" /> Keranjang
+        </button>
+      </div>
+
 
         {/* Horizontal Line */}
         <hr className="my-3 border-gray-300" />
@@ -140,11 +146,8 @@ const ProductCard = ({ product, isBestProduct, onAddToCart }) => {
             <span>{product.seller}</span>
           </div>
           <div className="flex justify-between">
-            <img
-              src={product.bumnImage}
-              alt="BUMN Logo"
-              className="w-6 h-6 rounded-full"
-            />
+            <img  src={product.productImage} alt={product.name} className="w-6 h-6 rounded-full"/>
+            {/* ini harus disamain di API nya apa */}
           </div>
 
           <div className="flex justify-between">

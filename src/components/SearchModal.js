@@ -13,6 +13,7 @@ const SearchModal = ({ onClose, onAddToCart }) => { // Tambahkan prop onAddToCar
     onAddToCart(product);  // Tambahkan produk ke keranjang melalui fungsi prop
     onClose();  // Tutup modal setelah menambahkan produk
   };
+  
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center">
