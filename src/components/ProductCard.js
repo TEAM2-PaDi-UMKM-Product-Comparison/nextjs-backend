@@ -11,6 +11,8 @@ const ProductCard = ({ product, onAddToCart }) => {
     </div>
   );
 
+  const getRandomStock = () => Math.floor(Math.random() * (20 - 10 + 1)) + 10;
+
   // Function to render product details row
   const renderDetailRow = (label, value) => (
     <div className="flex justify-between">
@@ -104,25 +106,25 @@ const ProductCard = ({ product, onAddToCart }) => {
             <span>{product.price}</span>
           </div>
           <div className="flex justify-between">
-            <span>{product.location}</span>
+            <span>{product.sentFrom}</span>
           </div>
           <div className="flex justify-between">
-            {renderStarAndRating(product.rating)}
+            {renderStarAndRating(product.ratingProduct)}
           </div>
           <div className="flex justify-between">
-            <span>{product.sold}</span>
+            <span>{product.soldQuantity}</span>
           </div>
           <div className="flex justify-between">
-            <span>{product.taxes}</span>
+            <span>{product.taxProduct}</span>
           </div>
           <div className="flex justify-between">
-            <span>{product.tkdn}</span>
+            <span>{product.tkdn || "-"}</span>
           </div>
 
           <hr className="my-3 border-gray-300 w-full" />
 
           <div className="flex justify-between">
-            <span>{product.stock}</span>
+            <span>{getRandomStock()}</span>
           </div>
           <div className="flex justify-between">
             <span>{product.category}</span>
@@ -151,10 +153,10 @@ const ProductCard = ({ product, onAddToCart }) => {
           </div>
 
           <div className="flex justify-between">
-            <span>{product.review}</span>
+            <span>{product.ratingStore}</span>
           </div>
           <div className="flex justify-between">
-            <span>{product.totalSales}</span>
+            <span>{product.totalSold}</span>
           </div>
           <hr className="my-3 border-gray-300 w-full" />
 
