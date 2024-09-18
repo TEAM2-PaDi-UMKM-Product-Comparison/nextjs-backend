@@ -1,11 +1,11 @@
-// src/pages/index.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import ProductList from '../components/ProductList';
 import Header from '../components/Header';
 import Breadcrumb from '../components/Breadcrumb';
 import SearchModal from '../components/SearchModal';
-import AddToCartModal from '../components/AddToCartModal';  // New Modal Component
+import AddToCartModal from '../components/AddToCartModal';
+import ProductComparisonPopup from '../components/ProductComparisonPopup';  // Import the ProductComparisonPopup
 import '../app/globals.css';
 
 const HomePage = () => {
@@ -14,10 +14,12 @@ const HomePage = () => {
   const [showAddToCartModal, setShowAddToCartModal] = useState(false);  // State for add to cart modal
   const [selectedProduct, setSelectedProduct] = useState(null);  // Selected product state
   const [quantity, setQuantity] = useState(0);  // Quantity state for selected product
+  const [isComparisonPopupOpen, setIsComparisonPopupOpen] = useState(false);  // State for comparison popup
+  const [products, setProducts] = useState([]);  // State to store products from API
+  const [loading, setLoading] = useState(true);  // Loading state
 
   // Function to handle opening Add to Cart modal
   const openAddToCartModal = (product) => {
-    // Close search modal if it's open before opening add to cart modal
     if (isSearchOpen) {
       setIsSearchOpen(false);
     }
@@ -38,13 +40,11 @@ const HomePage = () => {
     const existingProduct = cart.find(item => item.id === product.id);
 
     if (existingProduct) {
-      // If product already exists in the cart, update its quantity
       const updatedCart = cart.map(item => 
         item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
       );
       setCart(updatedCart);
     } else {
-      // Add the product to the cart
       setCart([...cart, { ...product, quantity }]);
     }
 
@@ -53,7 +53,6 @@ const HomePage = () => {
 
   // Function to handle opening search modal
   const handleSearchClick = () => {
-    // Close Add to Cart modal if it's open before opening search modal
     if (showAddToCartModal) {
       setShowAddToCartModal(false);
     }
@@ -65,46 +64,76 @@ const HomePage = () => {
     setIsSearchOpen(false);  // Close search modal
   };
 
+  // Function to toggle the product comparison popup
+  const toggleComparisonPopup = () => {
+    setIsComparisonPopupOpen(!isComparisonPopupOpen);
+  };
+
+  // Fetch products from API when component mounts
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('https://nestjs-backend-production-f91c.up.railway.app/products/search?keyword=${searchQuery}');  // Replace with your API endpoint
+        const data = await response.json();
+        setProducts(data);  // Set products state with API response
+        setLoading(false);  // Set loading to false once data is fetched
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setLoading(false);  // Set loading to false even if there is an error
+      }
+    };
+
+    fetchProducts();  // Call the API function
+  }, []);
+
   return (
     <>
       {/* Header */}
-      <Header onSearchClick={handleSearchClick} />  {/* Pass search click handler */}
+      <Header onSearchClick={handleSearchClick} />
       
       {/* Breadcrumb */}
-      <Breadcrumb />
+      <Breadcrumb onCompareClick={toggleComparisonPopup} /> {/* Trigger comparison popup from breadcrumb */}
       
       {/* Main Content */}
       <main className="bg-gray-50 min-h-screen p-6">
         <div className="grid grid-cols-4 gap-6">
           <Sidebar />
           <div className="col-span-1">
-          <ProductList onAddToCart={openAddToCartModal} />  {/* Pass add to cart handler */}
+            <ProductList onAddToCart={openAddToCartModal} />
           </div>
           <div className="col-span-1">
-          <ProductList onAddToCart={openAddToCartModal} />  {/* Pass add to cart handler */}
+            <ProductList onAddToCart={openAddToCartModal} />
           </div>
           <div className="col-span-1">
-          <ProductList onAddToCart={openAddToCartModal} />  {/* Pass add to cart handler */}
+            <ProductList onAddToCart={openAddToCartModal} />
           </div>
         </div>
       </main>
 
-      {/* Search Modal */}
-      {isSearchOpen && (
-        <SearchModal onClose={closeSearch} />
-      )}
+        {/* Search Modal */}
+        {isSearchOpen && (
+                <SearchModal onClose={closeSearch} />
+              )}
 
-      {/* Add to Cart Modal */}
-      {showAddToCartModal && selectedProduct && (
-        <AddToCartModal
-          open={showAddToCartModal}
-          handleClose={closeAddToCartModal}
-          product={selectedProduct}
-          onAddToCart={handleAddToCart}
-        />
-      )}
-    </>
-  );
-};
+              {/* Add to Cart Modal */}
+              {showAddToCartModal && selectedProduct && (
+                <AddToCartModal
+                  open={showAddToCartModal}
+                  handleClose={closeAddToCartModal}
+                  product={selectedProduct}
+                  onAddToCart={handleAddToCart}
+                />
+              )}
 
-export default HomePage;
+              {/* Product Comparison Popup */}
+              {isComparisonPopupOpen && (
+                <ProductComparisonPopup 
+                  products={products}  // Pass API data to the popup
+                  onClose={toggleComparisonPopup}  // Close popup function
+                />
+              )}
+            </>
+          );
+        };
+
+        export default HomePage;

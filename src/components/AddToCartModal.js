@@ -10,7 +10,7 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
   if (!product) return null;
 
   const handleIncreaseQuantity = () => {
-    if (quantity < product.stock) {
+    if (quantity < getRandomStock()) {
       setQuantity(prevQuantity => prevQuantity + 1);
     }
   };
@@ -33,6 +33,7 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
     onAddToCart={handleAddToCart} // Make sure this function is passed correctly
   />
   
+  const getRandomStock = () => Math.floor(Math.random() * (20 - 10 + 1)) + 10;
 
   const handleCloseSuccess = () => {
     setShowSuccess(false); // Close success modal
@@ -57,14 +58,14 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
             {/* Product Image and Information */}
             <div className="flex mt-4">
               <img
-                src={product.image}
+                src={product.productImage}
                 alt={product.title}
                 className="w-24 h-24 rounded-md object-cover"
               />
               <div className="ml-4 flex-grow">
                 <p className="font-bold">Rp{product.price.toLocaleString()}/Box (Rp{(product.price / product.unit).toFixed(3)}/Pcs)</p>
                 <p className="mt-1 text-sm">Isi: {product.unit}/Box</p>
-                <p className="text-sm">Stok: {product.stock} box</p>
+                <p className="text-sm">Stok: {getRandomStock()} box</p>
               </div>
             </div>
 
@@ -86,7 +87,7 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
                 <p className="mx-4 text-sm">{quantity}</p>
                 <button
                   onClick={handleIncreaseQuantity}
-                  disabled={quantity >= product.stock}
+                  disabled={quantity >= getRandomStock()}
                   className="w-8 h-8 border border-gray-300 rounded-full flex justify-center items-center"
                 >
                   +
@@ -96,7 +97,7 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
               {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                disabled={quantity === 0 || product.stock === 0}
+                disabled={quantity === 0 || getRandomStock() === 0}
                 className="mt-6 w-full flex items-center justify-center py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-bold rounded-md transition-colors disabled:bg-gray-300"
               >
                 <FaShoppingCart className="mr-2" />
