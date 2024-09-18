@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { FaTrashAlt, FaShoppingCart, FaStar } from 'react-icons/fa';
+import AddToCartModal from './AddToCartModal'; // Import the modal component
 
-const ProductCard = ({ product, onAddToCart }) => {
+const ProductCard = ({ product, onAddToCart, onDelete }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
   // Function to render star rating
   const renderStarAndRating = (rating) => (
@@ -21,15 +23,21 @@ const ProductCard = ({ product, onAddToCart }) => {
 
   // Function to handle adding product to cart
   const handleAddToCart = () => {
-    if (onAddToCart) {
-      onAddToCart(product);
+    setIsModalOpen(true); // Open the AddToCartModal
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false); // Close the modal when done
+  };
+
+  const handleDeleteProduct = () => {
+    if (onDelete) {
+      onDelete(product.id); // Call the delete function passed from parent
     }
   };
 
   // Logika Best Product berdasarkan harga di bawah 100.000 dan rating lebih dari 4.5
   const isBestProduct = product.price < 100000 && product.rating > 4.5;
-
-
 
   return (
     <div
@@ -82,10 +90,15 @@ const ProductCard = ({ product, onAddToCart }) => {
           </div>
         )}
 
-              <div className="flex items-center justify-between mt-4">
-        <button className="flex items-center justify-center bg-white text-cyan-500 border border-cyan-500 rounded-md p-2 hover:bg-cyan-500 hover:text-white transition no-print">
+      <div className="flex items-center justify-between mt-4">
+        {/* Delete Button */}
+        <button 
+          onClick={handleDeleteProduct}
+          className="flex items-center justify-center bg-white text-cyan-500 border border-cyan-500 rounded-md p-2 hover:bg-cyan-500 hover:text-white transition no-print"
+          >
           <FaTrashAlt className="mr-2" />
         </button>
+        {/* Add to Cart Button */}
         <button
           onClick={handleAddToCart}
           className="flex items-center justify-center bg-cyan-500 text-white rounded-md p-2 hover:bg-cyan-600 transition no-print"
@@ -163,6 +176,13 @@ const ProductCard = ({ product, onAddToCart }) => {
           </div>
         </div>
       </div>
+      {/* Add to Cart Modal */}
+      <AddToCartModal
+        open={isModalOpen}
+        handleClose={handleModalClose}
+        product={product}
+        onAddToCart={onAddToCart} // Pass the cart function to modal
+      />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from '@mui/material';
 import { FaTimes, FaCheckCircle, FaShoppingCart } from 'react-icons/fa';
+import ProductCard from './ProductCard'; // Import the modal component
 
 const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
   const [quantity, setQuantity] = useState(0); // Default quantity is 0
@@ -26,6 +27,12 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
     }
     setShowSuccess(true); // Show the success modal
   };
+  
+  <ProductCard
+    product={product}
+    onAddToCart={handleAddToCart} // Make sure this function is passed correctly
+  />
+  
 
   const handleCloseSuccess = () => {
     setShowSuccess(false); // Close success modal
@@ -65,7 +72,6 @@ const AddToCartModal = ({ open, handleClose, product, onAddToCart }) => {
             <div className="mt-4">
               <p className="font-bold text-sm">Motif</p>
               <p className="text-sm text-gray-500 italic mb-4">*Motif tidak tersedia</p>
-
               <p className="font-bold text-sm">Jumlah (*satuan box)</p>
 
               {/* Quantity Selector */}

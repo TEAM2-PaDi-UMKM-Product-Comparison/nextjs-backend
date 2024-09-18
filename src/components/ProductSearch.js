@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
+import AddToCartModal from './AddToCartModal'; // Mengimpor AddToCartModal
 
 const ProductSearch = ({ searchQuery, onAddProduct }) => {
   const [products, setProducts] = useState([]); // Menyimpan produk yang didapat dari API
@@ -61,12 +62,19 @@ const ProductSearch = ({ searchQuery, onAddProduct }) => {
     }
   }, [searchQuery, priceRange, locationFilter, ratingFilter]);
 
-  // Fungsi untuk menangani perubahan slider harga
-  const handlePriceChange = (e) => {
-    const newRange = [...priceRange];
-    newRange[0] = e.target.value;
-    setPriceRange(newRange);
-  };
+    // State untuk pilihan harga
+    const [selectedPrice, setSelectedPrice] = useState('');
+
+    // Fungsi untuk mengubah rentang harga pada slider
+    const handlePriceChange = (e) => {
+      const newPrice = parseInt(e.target.value, 10);
+      setPriceRange([newPrice, priceRange[1]]);
+    };
+
+    // Fungsi untuk mengubah pilihan harga dari radio button
+    const handleSelectedPriceChange = (priceOption) => {
+      setSelectedPrice(priceOption);
+    };
 
   return (
     <div className="flex">
@@ -74,19 +82,37 @@ const ProductSearch = ({ searchQuery, onAddProduct }) => {
       <div className="w-1/4 p-3">
         <h2 className="font-bold mb-4">Sortir Produk</h2>
 
-        {/* Slider Rentang Harga */}
-        <div className="mb-4">
-          <label className="block text-gray-700">Harga</label>
-          <input
-            type="range"
-            min="5000"
-            max="1000000"
-            value={priceRange[0]}
-            onChange={handlePriceChange}
-            className="w-full"
-          />
-          <p>{`Rp${priceRange[0]} - Rp${priceRange[1]}`}</p>
+ {/* Radio Button Pilihan Harga */}
+    <div className="mb-6">
+        <label className="block text-gray-700">Harga</label>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="harga"
+              value="termurah"
+              checked={selectedPrice === "termurah"}
+              onChange={() => handleSelectedPriceChange("termurah")}
+              className="mr-2"
+            />
+            Termurah
+          </label>
         </div>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="harga"
+              value="termahal"
+              checked={selectedPrice === "termahal"}
+              onChange={() => handleSelectedPriceChange("termahal")}
+              className="mr-2"
+            />
+            Termahal
+          </label>
+        </div>
+      </div>
+
 
         {/* Filter Lokasi */}
         <div className="mb-4">
