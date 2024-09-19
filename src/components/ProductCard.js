@@ -161,7 +161,7 @@ const ProductCard = ({ product, onAddToCart, onDelete }) => {
             <span>{product.seller}</span>
           </div>
           <div className="flex justify-between">
-            <img  src={product.productImage} alt={product.name} className="w-6 h-6 rounded-full"/>
+            <img  src={product.bumnImage} alt={product.name} className="w-6 h-6 rounded-full"/>
             {/* ini harus disamain di API nya apa */}
           </div>
 
