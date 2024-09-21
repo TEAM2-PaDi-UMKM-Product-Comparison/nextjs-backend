@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { FaPrint } from 'react-icons/fa';
 import ProductComparisonPopup from './ProductComparisonPopup';  // Import the popup component
-//import { products } from '../constants/products';  // Import products from product.js
 
 const Breadcrumb = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);

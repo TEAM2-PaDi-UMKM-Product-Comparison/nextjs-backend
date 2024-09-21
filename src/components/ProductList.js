@@ -54,8 +54,15 @@ const ProductList = () => {
             </tr>
 
             <tr>
-              <td className="py-2 px-4 border-b">
-                <div className="flex flex-col items-center justify-center h-32">
+              <td className="py-4 px-6 border-b">
+                <div className="flex flex-col items-center justify-center h-44">
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td className="py-4 px-6 border-b">
+                <div className="flex flex-col items-center justify-center h-44">
                 </div>
               </td>
             </tr>

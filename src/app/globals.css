@@ -68,3 +68,18 @@ body {
     display: none !important; /* Sembunyikan elemen dengan kelas print-only saat di layar biasa */
   }
 }
+
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* tetap 3 kolom seperti sebelumnya */
+  }
+}
